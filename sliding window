@@ -1,0 +1,32 @@
+class Solution{   
+public:
+    long maximumSumSubarray(int K, vector<int> &Arr , int N){
+        // code here 
+        
+        int i = 0, j = 0;
+        long long current_sum = 0, max_sum = 0;
+
+        // Iterate through the array using two pointers i and j
+        while (j < N) {
+            // Add the current element to the sum
+            current_sum += Arr[j];
+
+            // If window size is less than K, just move j forward
+            if (j - i + 1 < K) {
+                j++;
+            }
+            // When we hit the window size of K
+            else if (j - i + 1 == K) {
+                // Update the maximum sum
+                max_sum = max(max_sum, current_sum);
+                
+                // Slide the window: remove the i-th element and move both pointers forward
+                current_sum -= Arr[i];
+                i++;
+                j++;
+            }
+        }
+        
+        return max_sum;
+    }
+};
