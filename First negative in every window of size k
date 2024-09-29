@@ -1,0 +1,38 @@
+ deque<long long int> dq;  // Deque to store indices of negative integers
+        vector<long long> result; // Result array to store the first negative integer for each window
+
+        // Process the first window of size K
+        for (long long int i = 0; i < K; i++) {
+            if (A[i] < 0) {
+                dq.push_back(i);  // Store the index of the negative number
+            }
+        }
+
+        // If there is a negative number in the deque, add it to the result; otherwise, add 0
+        if (!dq.empty()) {
+            result.push_back(A[dq.front()]);
+        } else {
+            result.push_back(0);
+        }
+
+        // Process the remaining windows
+        for (long long int i = K; i < N; i++) {
+            // Remove elements that are out of this window
+            if (!dq.empty() && dq.front() <= i - K) {
+                dq.pop_front();
+            }
+
+            // Add the current element if it is negative
+            if (A[i] < 0) {
+                dq.push_back(i);
+            }
+
+            // Add the first negative number of the current window to the result
+            if (!dq.empty()) {
+                result.push_back(A[dq.front()]);
+            } else {
+                result.push_back(0);
+            }
+        }
+
+        return result;
