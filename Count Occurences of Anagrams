@@ -1,0 +1,48 @@
+class Solution{
+public:
+	int search(string pat, string txt) {
+	   
+	    int i=0,j=0;
+	    int ans=0;
+	    
+	    map<char, int>mp;
+	    int k=pat.size();
+	    
+	    for(int i=0;i<k;i++){
+	        mp[pat[i]]++;
+	    }
+	    
+	    int count=mp.size();
+	   
+	   while(j<txt.size()){
+	       
+	       mp[txt[j]]--;
+	       
+	       if(mp[txt[j]]==0) {
+	           count--;
+	       }
+	       
+	       if (j - i + 1 < k) {
+                j++;
+            }
+            else if (j - i + 1 == k) {
+                if (count == 0) ans++;
+
+                // Now slide the window: increase the count for the character at 'i' (which is being removed)
+                mp[txt[i]]++;
+
+                // If the count of the character at 'i' becomes positive, it means we lost a match
+                if (mp[txt[i]] == 1) count++;
+
+                // Move the window to the right by increasing both 'i' and 'j'
+                i++;
+                j++;
+            }
+        }
+
+        // Return the total number of anagrams found
+        return ans;
+	   
+	}
+
+};
